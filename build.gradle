@@ -12,6 +12,3 @@ repositories {
 dependencies {
     implementation 'mysql:mysql-connector-java:8.0.26'
 }
-
-test {
-}
