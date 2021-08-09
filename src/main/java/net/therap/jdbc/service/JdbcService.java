@@ -75,4 +75,24 @@ public class JdbcService {
         }
         return output;
     }
+
+    public static String getQuery(int option){
+        String query = "";
+        switch (option){
+            case 1:
+                query = "SELECT * FROM course_table";
+                break;
+            case 2:
+                query = "SELECT * FROM trainee_table";
+                break;
+            case 3:
+                query = "select trainee_table.Trainee_id, trainee_table.Trainee_Name, course_table.Course_Code, course_table.Course_Title FROM " +
+                        "((enrollment_table inner join trainee_table on enrollment_table.Trainee_id=trainee_table.Trainee_id) " +
+                        "inner join course_table on course_table.Course_Code=enrollment_table.Course_Code)";
+                break;
+            case 4:
+                break;
+        }
+        return query;
+    }
 }
