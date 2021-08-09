@@ -1,8 +1,6 @@
 package net.therap.jdbc.service;
 
-import net.therap.jdbc.domain.Database;
-import net.therap.jdbc.domain.EnrollmentDetails;
-import net.therap.jdbc.domain.EnrollmentDetailsOutput;
+import net.therap.jdbc.domain.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ public class JdbcService {
     public static Connection connectDatabase(Database database) {
         Connection connection = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(database.getDatabaseUrl(), database.getUsername(), database.getPassword());
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -53,6 +51,34 @@ public class JdbcService {
             e.printStackTrace();
         }
         return enrollmentDetailsList;
+    }
+
+    public static List<Trainee> traineeDataExtract(ResultSet resultSet) {
+        List<Trainee> traineeList = new ArrayList<>();
+
+        try {
+            while (resultSet.next()) {
+                Trainee t = new Trainee(resultSet.getString("Trainee_id"), resultSet.getString("Trainee_Name"));
+                traineeList.add(t);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return traineeList;
+    }
+
+    public static List<Course> courseDataExtract(ResultSet resultSet) {
+        List<Course> courseList = new ArrayList<>();
+
+        try {
+            while (resultSet.next()) {
+                Course c = new Course(resultSet.getString("Course_Code"), resultSet.getString("Course_Title"));
+                courseList.add(c);
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return courseList;
     }
 
     public static EnrollmentDetailsOutput generateOutput(List<EnrollmentDetails> enrollmentDetailsList) {
