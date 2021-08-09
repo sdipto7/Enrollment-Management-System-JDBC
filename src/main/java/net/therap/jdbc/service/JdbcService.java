@@ -76,7 +76,7 @@ public class JdbcService {
         return output;
     }
 
-    public static String getQuery(int option){
+    public static String getQuery(Connection connection, int option){
         String query = "";
         switch (option){
             case 1:
