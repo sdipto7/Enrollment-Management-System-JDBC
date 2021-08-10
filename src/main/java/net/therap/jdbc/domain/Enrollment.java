@@ -1,49 +1,35 @@
 package net.therap.jdbc.domain;
 
+import java.util.List;
+
 /**
  * @author rumi.dipto
  * @since 8/9/21
  */
-public class EnrollmentDetails {
+public class Enrollment {
 
-    private String traineeName, traineeId, courseCode, courseTitle;
+    private Trainee trainee;
 
-    public EnrollmentDetails() {
-        traineeId = "";
-        traineeName = "";
-        courseCode = "";
-        courseTitle = "";
+    private List<Course> courseList;
+
+    public Enrollment(Trainee traineeValue, List<Course> courseListValue) {
+        trainee = traineeValue;
+        courseList = courseListValue;
     }
 
-    public String getTraineeName() {
-        return traineeName;
+    public Trainee getTrainee() {
+        return trainee;
     }
 
-    public void setTraineeName(String traineeNameValue) {
-        traineeName = traineeNameValue;
+    public void setTrainee(Trainee traineeValue) {
+        trainee = traineeValue;
     }
 
-    public String getTraineeId() {
-        return traineeId;
+    public List<Course> getCourseList() {
+        return courseList;
     }
 
-    public void setTraineeId(String traineeIdValue) {
-        traineeId = traineeIdValue;
-    }
-
-    public String getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(String courseCodeValue) {
-        courseCode = courseCodeValue;
-    }
-
-    public String getCourseTitle() {
-        return courseTitle;
-    }
-
-    public void setCourseTitle(String courseTitleValue) {
-        courseTitle = courseTitleValue;
+    public void setCourse(List<Course> courseListValue) {
+        courseList = courseListValue;
     }
 }
