@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class TraineeService {
 
-    public List<Trainee> getAll(){
+    public List<Trainee> getAll() {
         Connection connection = ConnectionManager.getConnection();
         String query = "SELECT * FROM trainee";
         ResultSet resultSet = queryExecute(connection, query);
