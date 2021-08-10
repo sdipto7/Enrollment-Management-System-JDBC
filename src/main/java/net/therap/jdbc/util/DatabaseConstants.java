@@ -6,9 +6,9 @@ package net.therap.jdbc.util;
  */
 public interface DatabaseConstants {
 
-    public static final String URL = "jdbc:mysql://localhost:3306/course_enrollment_details";
+    String URL = "jdbc:mysql://localhost:3306/course_enrollment_details";
 
-    public static final String USERNAME = "root";
+    String USERNAME = "root";
 
-    public static final String PASSWORD = "welcome987";
+    String PASSWORD = "welcome987";
 }
