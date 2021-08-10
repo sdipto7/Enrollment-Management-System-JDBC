@@ -10,7 +10,7 @@ import java.util.List;
  * @author rumi.dipto
  * @since 8/9/21
  */
-public class JdbcViewService {
+public class EnrollmentViewService {
 
     public static void printCourseInformation(List<Course> courseList) {
         System.out.println("Courses: ");
