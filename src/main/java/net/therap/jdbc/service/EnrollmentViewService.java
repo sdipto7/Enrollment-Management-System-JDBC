@@ -1,12 +1,10 @@
 package net.therap.jdbc.service;
 
 import net.therap.jdbc.domain.Course;
-import net.therap.jdbc.domain.EnrollmentDetailsOutput;
+import net.therap.jdbc.domain.Enrollment;
 import net.therap.jdbc.domain.Trainee;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author rumi.dipto
@@ -28,17 +26,17 @@ public class JdbcViewService {
         }
     }
 
-    public static void print(EnrollmentDetailsOutput enrollmentDetailsOutput) {
-        for (Map.Entry m : enrollmentDetailsOutput.getTraineeInfo().entrySet()) {
-            System.out.println("Trainee ID: " + m.getKey());
-            System.out.println("Trainee Name: " + m.getValue());
-            System.out.println("Courses: ");
+    public static void printEnrollmentInformation(List<Enrollment> enrollmentList) {
+        for (Enrollment enrollment : enrollmentList) {
+            Trainee trainee = enrollment.getTrainee();
+            System.out.println("Trainee:\n" + trainee.getTraineeId() + " - " + trainee.getTraineeName());
 
-            HashSet<String> courses = enrollmentDetailsOutput.getEnrollmentInfo().get(m.getKey());
-            for (String s : courses) {
-                System.out.println(s + " - " + enrollmentDetailsOutput.getCourseInfo().get(s));
+            System.out.println("Courses:");
+            List<Course> courseList = enrollment.getCourseList();
+            for (Course course : courseList) {
+                System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
             }
-            System.out.println("====================");
+            System.out.println("============");
         }
     }
 }

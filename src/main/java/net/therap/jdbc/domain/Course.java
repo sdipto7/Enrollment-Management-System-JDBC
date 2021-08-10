@@ -6,7 +6,9 @@ package net.therap.jdbc.domain;
  */
 public class Course {
 
-    private String courseCode, courseTitle;
+    private String courseCode;
+
+    private String courseTitle;
 
     public Course(String courseCodeValue, String courseTitleValue) {
         courseCode = courseCodeValue;

@@ -1,9 +1,11 @@
 package net.therap.jdbc.service;
 
 import net.therap.jdbc.domain.*;
+import net.therap.jdbc.util.Database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -11,13 +13,13 @@ import java.util.List;
  * @author rumi.dipto
  * @since 8/9/21
  */
-public class JdbcService {
+public class JdbcService implements Database {
 
-    public static Connection connectDatabase(Database database) {
+    public static Connection connectDatabase() {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(database.getDatabaseUrl(), database.getUsername(), database.getPassword());
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -35,12 +37,24 @@ public class JdbcService {
         return resultSet;
     }
 
-    public static List<EnrollmentDetails> enrollmentDataExtract(ResultSet resultSet) {
-        List<EnrollmentDetails> enrollmentDetailsList = new ArrayList<>();
+    public static void updateExecute(Connection connection, String query, String traineeId, String courseCode) {
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, traineeId);
+            preparedStatement.setString(2, courseCode);
+            int row = preparedStatement.executeUpdate();
+            System.out.println(row + " rows affected!");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static List<Enrollment> enrollmentDataExtract(ResultSet resultSet) {
+        List<Enrollment> enrollmentDetailsList = new ArrayList<>();
 
         try {
             while (resultSet.next()) {
-                EnrollmentDetails e = new EnrollmentDetails();
+                Enrollment e = new Enrollment();
                 e.setCourseCode(resultSet.getString("course_table.Course_Code"));
                 e.setCourseTitle(resultSet.getString("course_table.Course_Title"));
                 e.setTraineeName(resultSet.getString("trainee_table.Trainee_Name"));
@@ -61,7 +75,7 @@ public class JdbcService {
                 Trainee t = new Trainee(resultSet.getString("Trainee_id"), resultSet.getString("Trainee_Name"));
                 traineeList.add(t);
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return traineeList;
@@ -75,30 +89,34 @@ public class JdbcService {
                 Course c = new Course(resultSet.getString("Course_Code"), resultSet.getString("Course_Title"));
                 courseList.add(c);
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return courseList;
     }
 
-    public static EnrollmentDetailsOutput generateOutput(List<EnrollmentDetails> enrollmentDetailsList) {
-        EnrollmentDetailsOutput output = new EnrollmentDetailsOutput();
+    public static void generateOutput(List<Enrollment> enrollmentDetailsList) {
+        HashMap<String, HashSet<String>> enrollmentInfo = new HashMap<>();
 
-        for (EnrollmentDetails e : enrollmentDetailsList) {
+        HashMap<String, String> traineeInfo = new HashMap<>();
+
+        HashMap<String, String> courseInfo = new HashMap<>();
+
+        for (Enrollment e : enrollmentDetailsList) {
             String courseCode = e.getCourseCode();
             String courseTitle = e.getCourseTitle();
             String traineeName = e.getTraineeName();
             String traineeId = e.getTraineeId();
 
-            output.getTraineeInfo().put(traineeId, traineeName);
-            output.getCourseInfo().put(courseCode, courseTitle);
-            if (output.getEnrollmentInfo().containsKey(traineeId)) {
-                output.getEnrollmentInfo().get(traineeId).add(courseCode);
+            traineeInfo.put(traineeId, traineeName);
+            courseInfo.put(courseCode, courseTitle);
+            if (enrollmentInfo.containsKey(traineeId)) {
+                enrollmentInfo.get(traineeId).add(courseCode);
             } else {
-                output.getEnrollmentInfo().put(traineeId, new HashSet<>());
-                output.getEnrollmentInfo().get(traineeId).add(courseCode);
+                enrollmentInfo.put(traineeId, new HashSet<>());
+                enrollmentInfo.get(traineeId).add(courseCode);
             }
         }
-        return output;
+        JdbcViewService.print(enrollmentInfo, traineeInfo, courseInfo);
     }
 }
