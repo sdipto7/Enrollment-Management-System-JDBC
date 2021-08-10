@@ -18,9 +18,9 @@ public class EnrollmentService {
     public List<Enrollment> getAll() {
         Connection connection = ConnectionManager.getConnection();
 
-        String query = "select trainee.trainee_id, trainee.trainee_name, course.course_code, course.course_title FROM " +
-                "((enrollment inner join trainee on enrollment.trainee_id=trainee.trainee_id) " +
-                "inner join course on course.course_code=enrollment.course_code)";
+        String query = "SELECT trainee.trainee_id, trainee.trainee_name, course.course_code, course.course_title FROM " +
+                "((enrollment INNER JOIN trainee ON enrollment.trainee_id=trainee.trainee_id) " +
+                "INNER JOIN course ON course.course_code=enrollment.course_code)";
 
         ResultSet resultSet = queryExecute(connection, query);
         return extractEnrollmentData(resultSet);
