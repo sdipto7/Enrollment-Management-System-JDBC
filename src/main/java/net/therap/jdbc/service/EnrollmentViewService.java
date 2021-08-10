@@ -14,15 +14,15 @@ public class EnrollmentViewService {
 
     public static void printCourseInformation(List<Course> courseList) {
         System.out.println("Courses: ");
-        for (Course c : courseList) {
-            System.out.println(c.getCourseCode() + " - " + c.getCourseTitle());
+        for (Course course : courseList) {
+            System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
         }
     }
 
     public static void printTraineeInformation(List<Trainee> traineeList) {
         System.out.println("Trainees: ");
-        for (Trainee t : traineeList) {
-            System.out.println(t.getTraineeId() + " - " + t.getTraineeName());
+        for (Trainee trainee : traineeList) {
+            System.out.println(trainee.getTraineeId() + " - " + trainee.getTraineeName());
         }
     }
 
