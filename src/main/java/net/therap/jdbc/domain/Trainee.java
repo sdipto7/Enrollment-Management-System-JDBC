@@ -6,7 +6,9 @@ package net.therap.jdbc.domain;
  */
 public class Trainee {
 
-    private String traineeId, traineeName;
+    private String traineeId;
+
+    private String traineeName;
 
     public Trainee(String traineeIdValue, String traineeNameValue) {
         traineeId = traineeIdValue;
