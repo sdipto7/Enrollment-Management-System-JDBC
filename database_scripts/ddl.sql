@@ -7,11 +7,11 @@ course_title varchar(100)
 );
 
 CREATE TABLE trainee(
-trainee_id varchar(6),
+trainee_id int,
 trainee_name varchar(50)
 );
 
 CREATE TABLE enrollment(
-trainee_id varchar(6),
+trainee_id int,
 course_code varchar(7)
 );
