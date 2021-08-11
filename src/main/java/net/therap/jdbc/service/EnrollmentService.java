@@ -18,7 +18,6 @@ public class EnrollmentService {
 
     public List<Enrollment> getAll() {
         Connection connection = ConnectionManager.getConnection();
-
         String query = "SELECT trainee.trainee_id, trainee.trainee_name, course.course_code, course.course_title" +
                 " FROM enrollment INNER JOIN trainee ON enrollment.trainee_id=trainee.trainee_id" +
                 " INNER JOIN course ON course.course_code=enrollment.course_code";
@@ -57,13 +56,12 @@ public class EnrollmentService {
         return resultSet;
     }
 
-    public void executeUpdate(Connection connection, String query, int traineeId, String courseCode) throws SQLException{
+    public void executeUpdate(Connection connection, String query, int traineeId, String courseCode) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, traineeId);
         preparedStatement.setString(2, courseCode);
         int row = preparedStatement.executeUpdate();
         System.out.println(row + " rows affected!");
-
     }
 
     public List<Enrollment> extractEnrollmentData(ResultSet resultSet) throws SQLException {
@@ -73,6 +71,7 @@ public class EnrollmentService {
 
             Course course = new Course(resultSet.getString("course.course_code"),
                     resultSet.getString("course.course_title"));
+
             Trainee trainee = new Trainee(resultSet.getInt("trainee.trainee_id"),
                     resultSet.getString("trainee.trainee_name"));
 
