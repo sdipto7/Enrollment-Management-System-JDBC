@@ -8,6 +8,7 @@ import net.therap.jdbc.service.EnrollmentService;
 import net.therap.jdbc.service.EnrollmentViewService;
 import net.therap.jdbc.service.TraineeService;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,14 +33,18 @@ public class EnrollmentController {
             if (operation == 0) {
                 break;
             }
-            executeOperation(operation);
+            try {
+                executeOperation(operation);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             System.out.println("\n===========\n");
         }
 
         input.close();
     }
 
-    public static void executeOperation(int operation) {
+    public static void executeOperation(int operation) throws SQLException {
         EnrollmentService enrollmentService;
         switch (operation) {
             case 1:

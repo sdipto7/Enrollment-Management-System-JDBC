@@ -16,35 +16,26 @@ import java.util.List;
  */
 public class TraineeService {
 
-    public List<Trainee> getAll() {
+    public List<Trainee> getAll() throws SQLException{
         Connection connection = ConnectionManager.getConnection();
         String query = "SELECT * FROM trainee";
         ResultSet resultSet = executeQuery(connection, query);
         return extractTraineeData(resultSet);
     }
 
-    public ResultSet executeQuery(Connection connection, String query) {
+    public ResultSet executeQuery(Connection connection, String query) throws SQLException {
         ResultSet resultSet = null;
-        try {
-            Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Statement statement = connection.createStatement();
+        resultSet = statement.executeQuery(query);
 
         return resultSet;
     }
 
-    public List<Trainee> extractTraineeData(ResultSet resultSet) {
+    public List<Trainee> extractTraineeData(ResultSet resultSet) throws SQLException {
         List<Trainee> traineeList = new ArrayList<>();
-
-        try {
-            while (resultSet.next()) {
-                Trainee trainee = new Trainee(resultSet.getInt("trainee_id"), resultSet.getString("trainee_name"));
-                traineeList.add(trainee);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while (resultSet.next()) {
+            Trainee trainee = new Trainee(resultSet.getInt("trainee_id"), resultSet.getString("trainee_name"));
+            traineeList.add(trainee);
         }
 
         return traineeList;

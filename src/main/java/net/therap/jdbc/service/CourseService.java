@@ -16,36 +16,28 @@ import java.util.List;
  */
 public class CourseService {
 
-    public List<Course> getAll() {
+    public List<Course> getAll() throws SQLException {
         Connection connection = ConnectionManager.getConnection();
         String query = "SELECT * FROM course";
         ResultSet resultSet = executeQuery(connection, query);
+        List<Course> courseList = extractCourseData(resultSet);
 
-        return extractCourseData(resultSet);
+        return courseList;
     }
 
-    public ResultSet executeQuery(Connection connection, String query) {
+    public ResultSet executeQuery(Connection connection, String query) throws SQLException {
         ResultSet resultSet = null;
-        try {
-            Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Statement statement = connection.createStatement();
+        resultSet = statement.executeQuery(query);
 
         return resultSet;
     }
 
-    public List<Course> extractCourseData(ResultSet resultSet) {
+    public List<Course> extractCourseData(ResultSet resultSet) throws SQLException {
         List<Course> courseList = new ArrayList<>();
-
-        try {
-            while (resultSet.next()) {
-                Course course = new Course(resultSet.getString("course_code"), resultSet.getString("course_title"));
-                courseList.add(course);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while (resultSet.next()) {
+            Course course = new Course(resultSet.getString("course_code"), resultSet.getString("course_title"));
+            courseList.add(course);
         }
 
         return courseList;
