@@ -19,12 +19,12 @@ public class CourseService {
     public List<Course> getAll() {
         Connection connection = ConnectionManager.getConnection();
         String query = "SELECT * FROM course";
-        ResultSet resultSet = queryExecute(connection, query);
+        ResultSet resultSet = executeQuery(connection, query);
 
         return extractCourseData(resultSet);
     }
 
-    public ResultSet queryExecute(Connection connection, String query) {
+    public ResultSet executeQuery(Connection connection, String query) {
         ResultSet resultSet = null;
         try {
             Statement statement = connection.createStatement();

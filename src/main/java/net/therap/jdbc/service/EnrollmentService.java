@@ -22,17 +22,17 @@ public class EnrollmentService {
                 "((enrollment INNER JOIN trainee ON enrollment.trainee_id=trainee.trainee_id) " +
                 "INNER JOIN course ON course.course_code=enrollment.course_code)";
 
-        ResultSet resultSet = queryExecute(connection, query);
+        ResultSet resultSet = executeQuery(connection, query);
         return extractEnrollmentData(resultSet);
     }
 
     public void updateAll(String traineeId, String courseCode) {
         Connection connection = ConnectionManager.getConnection();
         String query = "INSERT INTO enrollment VALUES (?, ?)";
-        updateExecute(connection, query, traineeId, courseCode);
+        executeUpdate(connection, query, traineeId, courseCode);
     }
 
-    public ResultSet queryExecute(Connection connection, String query) {
+    public ResultSet executeQuery(Connection connection, String query) {
         ResultSet resultSet = null;
         try {
             Statement statement = connection.createStatement();
@@ -44,7 +44,7 @@ public class EnrollmentService {
         return resultSet;
     }
 
-    public void updateExecute(Connection connection, String query, String traineeId, String courseCode) {
+    public void executeUpdate(Connection connection, String query, String traineeId, String courseCode) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, traineeId);
