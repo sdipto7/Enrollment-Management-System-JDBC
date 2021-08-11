@@ -8,7 +8,6 @@ import net.therap.jdbc.service.EnrollmentService;
 import net.therap.jdbc.service.EnrollmentViewService;
 import net.therap.jdbc.service.TraineeService;
 
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,9 +17,9 @@ import java.util.Scanner;
  */
 public class EnrollmentController {
 
-    public static Scanner input = new Scanner(System.in);
-
     public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
 
         while (true) {
             System.out.println("Press 0 to exit");
@@ -36,6 +35,8 @@ public class EnrollmentController {
             executeOperation(operation);
             System.out.println("\n===========\n");
         }
+        
+        input.close();
     }
 
     public static void executeOperation(int operation) {
@@ -59,10 +60,12 @@ public class EnrollmentController {
                 break;
 
             case 4:
+                Scanner input = new Scanner(System.in);
                 System.out.println("Enter trainee id");
                 String traineeId = input.next();
                 System.out.println("Enter course code");
                 String courseCode = input.next();
+                input.close();
 
                 EnrollmentService enrollmentServiceUpdate = new EnrollmentService();
                 enrollmentServiceUpdate.updateAll(traineeId, courseCode);
