@@ -6,20 +6,20 @@ package net.therap.jdbc.domain;
  */
 public class Trainee {
 
-    private String traineeId;
+    private int traineeId;
 
     private String traineeName;
 
-    public Trainee(String traineeIdValue, String traineeNameValue) {
+    public Trainee(int traineeIdValue, String traineeNameValue) {
         traineeId = traineeIdValue;
         traineeName = traineeNameValue;
     }
 
-    public String getTraineeId() {
+    public int getTraineeId() {
         return traineeId;
     }
 
-    public void setTraineeId(String traineeIdValue) {
+    public void setTraineeId(int traineeIdValue) {
         traineeId = traineeIdValue;
     }
 
