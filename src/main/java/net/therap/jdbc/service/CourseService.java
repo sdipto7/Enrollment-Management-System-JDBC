@@ -16,14 +16,14 @@ import java.util.List;
  */
 public class CourseService {
 
-    public List<Course> getAll(){
+    public List<Course> getAll() {
         Connection connection = ConnectionManager.getConnection();
         String query = "SELECT * FROM course";
         List<Course> courseList = null;
         try {
             ResultSet resultSet = executeQuery(connection, query);
             courseList = extractCourseData(resultSet);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
