@@ -1,6 +1,3 @@
-CREATE DATABASE course_enrollment_details;
-USE course_enrollment_details;
-
 CREATE TABLE course(
 course_code varchar(7),
 course_title varchar(100)
