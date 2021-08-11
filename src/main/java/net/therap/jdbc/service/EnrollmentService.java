@@ -8,6 +8,7 @@ import net.therap.jdbc.util.ConnectionManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author rumi.dipto
@@ -23,10 +24,17 @@ public class EnrollmentService {
                 "INNER JOIN course ON course.course_code=enrollment.course_code)";
 
         ResultSet resultSet = executeQuery(connection, query);
+
         return extractEnrollmentData(resultSet);
     }
 
-    public void updateAll(String traineeId, String courseCode) {
+    public void updateAll() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter trainee id");
+        int traineeId = input.nextInt();
+        System.out.println("Enter course code");
+        String courseCode = input.next();
+
         Connection connection = ConnectionManager.getConnection();
         String query = "INSERT INTO enrollment VALUES (?, ?)";
         executeUpdate(connection, query, traineeId, courseCode);
@@ -44,10 +52,10 @@ public class EnrollmentService {
         return resultSet;
     }
 
-    public void executeUpdate(Connection connection, String query, String traineeId, String courseCode) {
+    public void executeUpdate(Connection connection, String query, int traineeId, String courseCode) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, traineeId);
+            preparedStatement.setInt(1, traineeId);
             preparedStatement.setString(2, courseCode);
             int row = preparedStatement.executeUpdate();
             System.out.println(row + " rows affected!");
@@ -64,11 +72,11 @@ public class EnrollmentService {
                 boolean newEnrollment = true;
 
                 Course course = new Course(resultSet.getString("course.course_code"), resultSet.getString("course.course_title"));
-                Trainee trainee = new Trainee(resultSet.getString("trainee.trainee_id"), resultSet.getString("trainee.trainee_name"));
+                Trainee trainee = new Trainee(resultSet.getInt("trainee.trainee_id"), resultSet.getString("trainee.trainee_name"));
 
                 if (enrollmentList.size() > 0) {
                     for (Enrollment enrollment : enrollmentList) {
-                        if (enrollment.getTrainee().getTraineeId().equals(resultSet.getString("trainee.trainee_id"))) {
+                        if ((enrollment.getTrainee().getTraineeId()) == (resultSet.getInt("trainee.trainee_id"))) {
                             enrollment.getCourseList().add(course);
                             newEnrollment = false;
                             break;
