@@ -61,15 +61,8 @@ public class EnrollmentController {
                 break;
 
             case 4:
-                Scanner input = new Scanner(System.in);
-                System.out.println("Enter trainee id");
-                String traineeId = input.next();
-                System.out.println("Enter course code");
-                String courseCode = input.next();
-                input.close();
-
                 enrollmentService = new EnrollmentService();
-                enrollmentService.updateAll(traineeId, courseCode);
+                enrollmentService.updateAll();
                 break;
 
             default:
