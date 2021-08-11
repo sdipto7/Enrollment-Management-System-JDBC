@@ -35,11 +35,12 @@ public class EnrollmentController {
             executeOperation(operation);
             System.out.println("\n===========\n");
         }
-        
+
         input.close();
     }
 
     public static void executeOperation(int operation) {
+        EnrollmentService enrollmentService;
         switch (operation) {
             case 1:
                 CourseService courseService = new CourseService();
@@ -54,7 +55,7 @@ public class EnrollmentController {
                 break;
 
             case 3:
-                EnrollmentService enrollmentService = new EnrollmentService();
+                enrollmentService = new EnrollmentService();
                 List<Enrollment> enrollmentList = enrollmentService.getAll();
                 EnrollmentViewService.printEnrollmentInformation(enrollmentList);
                 break;
@@ -67,8 +68,8 @@ public class EnrollmentController {
                 String courseCode = input.next();
                 input.close();
 
-                EnrollmentService enrollmentServiceUpdate = new EnrollmentService();
-                enrollmentServiceUpdate.updateAll(traineeId, courseCode);
+                enrollmentService = new EnrollmentService();
+                enrollmentService.updateAll(traineeId, courseCode);
                 break;
 
             default:
