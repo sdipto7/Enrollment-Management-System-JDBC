@@ -40,7 +40,7 @@ public class TraineeService {
 
         try {
             while (resultSet.next()) {
-                Trainee trainee = new Trainee(resultSet.getString("trainee_id"), resultSet.getString("trainee_name"));
+                Trainee trainee = new Trainee(resultSet.getInt("trainee_id"), resultSet.getString("trainee_name"));
                 traineeList.add(trainee);
             }
         } catch (SQLException e) {
