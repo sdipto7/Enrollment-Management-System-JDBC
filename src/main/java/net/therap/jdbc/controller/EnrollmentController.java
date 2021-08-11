@@ -33,18 +33,15 @@ public class EnrollmentController {
             if (operation == 0) {
                 break;
             }
-            try {
-                executeOperation(operation);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+            executeOperation(operation);
             System.out.println("\n===========\n");
         }
 
         input.close();
     }
 
-    public static void executeOperation(int operation) throws SQLException {
+    public static void executeOperation(int operation){
         EnrollmentService enrollmentService;
         switch (operation) {
             case 1:
@@ -67,7 +64,7 @@ public class EnrollmentController {
 
             case 4:
                 enrollmentService = new EnrollmentService();
-                enrollmentService.updateAll();
+                enrollmentService.save();
                 break;
 
             default:

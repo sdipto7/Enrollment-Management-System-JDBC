@@ -16,19 +16,25 @@ import java.util.Scanner;
  */
 public class EnrollmentService {
 
-    public List<Enrollment> getAll() throws SQLException{
+    public List<Enrollment> getAll(){
         Connection connection = ConnectionManager.getConnection();
 
         String query = "SELECT trainee.trainee_id, trainee.trainee_name, course.course_code, course.course_title" +
                 " FROM enrollment INNER JOIN trainee ON enrollment.trainee_id=trainee.trainee_id" +
                 " INNER JOIN course ON course.course_code=enrollment.course_code";
 
-        ResultSet resultSet = executeQuery(connection, query);
+        List<Enrollment> enrollmentList = null;
+        try {
+            ResultSet resultSet = executeQuery(connection, query);
+            enrollmentList = extractEnrollmentData(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        return extractEnrollmentData(resultSet);
+        return enrollmentList;
     }
 
-    public void updateAll() {
+    public void save() {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter trainee id");
         int traineeId = input.nextInt();
@@ -41,9 +47,8 @@ public class EnrollmentService {
     }
 
     public ResultSet executeQuery(Connection connection, String query) throws SQLException {
-        ResultSet resultSet = null;
         Statement statement = connection.createStatement();
-        resultSet = statement.executeQuery(query);
+        ResultSet resultSet = statement.executeQuery(query);
 
         return resultSet;
     }
@@ -65,8 +70,10 @@ public class EnrollmentService {
         while (resultSet.next()) {
             boolean newEnrollment = true;
 
-            Course course = new Course(resultSet.getString("course.course_code"), resultSet.getString("course.course_title"));
-            Trainee trainee = new Trainee(resultSet.getInt("trainee.trainee_id"), resultSet.getString("trainee.trainee_name"));
+            Course course = new Course(resultSet.getString("course.course_code"),
+                    resultSet.getString("course.course_title"));
+            Trainee trainee = new Trainee(resultSet.getInt("trainee.trainee_id"),
+                    resultSet.getString("trainee.trainee_name"));
 
             if (enrollmentList.size() > 0) {
                 for (Enrollment enrollment : enrollmentList) {
