@@ -30,18 +30,15 @@ public class EnrollmentViewService {
     public static void printEnrollmentInformation(List<Enrollment> enrollmentList) {
         Collections.sort(enrollmentList);
         Trainee trainee = null;
-
+        
         for (Enrollment enrollment : enrollmentList) {
-            if (trainee == null || !(enrollment.getTrainee().hashCode() == trainee.hashCode())) {
+            Course course = enrollment.getCourse();
+            if (trainee == null || (enrollment.getTrainee().hashCode() != trainee.hashCode())) {
                 trainee = enrollment.getTrainee();
                 System.out.println("Trainee:\n" + trainee.getTraineeId() + " - " + trainee.getTraineeName());
-                System.out.println("Courses:\n" + enrollment.getCourse().getCourseCode() + " - "
-                        + enrollment.getCourse().getCourseTitle());
-            } else {
-                if (enrollment.getTrainee().equals(trainee)) {
-                    System.out.println(enrollment.getCourse().getCourseCode() + " - " + enrollment.getCourse().getCourseTitle());
-                }
-
+                System.out.println("Courses:\n" + course.getCourseCode() + " - " + course.getCourseTitle());
+            } else if (enrollment.getTrainee().equals(trainee)) {
+                System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
             }
         }
     }
