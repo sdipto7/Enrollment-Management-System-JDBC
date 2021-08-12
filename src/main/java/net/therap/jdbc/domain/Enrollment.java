@@ -1,20 +1,18 @@
 package net.therap.jdbc.domain;
 
-import java.util.List;
-
 /**
  * @author rumi.dipto
  * @since 8/9/21
  */
-public class Enrollment {
+public class Enrollment implements Comparable<Enrollment> {
 
     private Trainee trainee;
 
-    private List<Course> courseList;
+    private Course course;
 
-    public Enrollment(Trainee traineeValue, List<Course> courseListValue) {
+    public Enrollment(Trainee traineeValue, Course courseValue) {
         trainee = traineeValue;
-        courseList = courseListValue;
+        course = courseValue;
     }
 
     public Trainee getTrainee() {
@@ -25,11 +23,16 @@ public class Enrollment {
         trainee = traineeValue;
     }
 
-    public List<Course> getCourseList() {
-        return courseList;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourse(List<Course> courseListValue) {
-        courseList = courseListValue;
+    public void setCourse(Course courseValue) {
+        course = courseValue;
+    }
+
+    @Override
+    public int compareTo(Enrollment enrollment) {
+        return this.getTrainee().getTraineeId() - enrollment.getTrainee().getTraineeId();
     }
 }
