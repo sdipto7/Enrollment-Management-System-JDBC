@@ -16,16 +16,11 @@ import java.util.List;
  */
 public class CourseService {
 
-    public List<Course> getAll() {
+    public List<Course> getAll() throws SQLException {
         Connection connection = ConnectionManager.getConnection();
         String query = "SELECT * FROM course";
-        List<Course> courseList = null;
-        try {
-            ResultSet resultSet = executeQuery(connection, query);
-            courseList = extractCourseData(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ResultSet resultSet = executeQuery(connection, query);
+        List<Course> courseList = extractCourseData(resultSet);
 
         return courseList;
     }

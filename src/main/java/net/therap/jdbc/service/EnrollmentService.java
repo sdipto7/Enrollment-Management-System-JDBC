@@ -15,31 +15,23 @@ import java.util.List;
  */
 public class EnrollmentService {
 
-    public List<Enrollment> getAll() {
+    public List<Enrollment> getAll() throws SQLException {
         Connection connection = ConnectionManager.getConnection();
         String query = "SELECT trainee.trainee_id, trainee.trainee_name, course.course_code, course.course_title" +
                 " FROM enrollment INNER JOIN trainee ON enrollment.trainee_id=trainee.trainee_id" +
                 " INNER JOIN course ON course.course_code=enrollment.course_code";
 
-        List<Enrollment> enrollmentList = null;
-        try {
-            ResultSet resultSet = executeQuery(connection, query);
-            enrollmentList = extractEnrollmentData(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        ResultSet resultSet = executeQuery(connection, query);
+        List<Enrollment> enrollmentList = extractEnrollmentData(resultSet);
 
         return enrollmentList;
     }
 
-    public void save(int traineeId, String courseCode) {
+    public void save(int traineeId, String courseCode) throws SQLException {
         Connection connection = ConnectionManager.getConnection();
         String query = "INSERT INTO enrollment VALUES (?, ?)";
-        try {
-            executeUpdate(connection, query, traineeId, courseCode);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        executeUpdate(connection, query, traineeId, courseCode);
+
     }
 
     public ResultSet executeQuery(Connection connection, String query) throws SQLException {
