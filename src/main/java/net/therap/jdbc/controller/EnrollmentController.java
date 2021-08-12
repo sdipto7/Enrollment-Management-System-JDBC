@@ -68,13 +68,14 @@ public class EnrollmentController {
                 break;
 
             case 4:
+                enrollmentService = new EnrollmentService();
+
                 Scanner input = new Scanner(System.in);
                 System.out.println("Enter trainee id");
                 int traineeId = input.nextInt();
                 System.out.println("Enter course code");
                 String courseCode = input.next();
 
-                enrollmentService = new EnrollmentService();
                 enrollmentService.save(traineeId, courseCode);
                 break;
 
