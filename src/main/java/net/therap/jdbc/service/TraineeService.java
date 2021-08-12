@@ -20,16 +20,14 @@ public class TraineeService {
         Connection connection = ConnectionManager.getConnection();
         String query = "SELECT * FROM trainee";
         ResultSet resultSet = executeQuery(connection, query);
-        List<Trainee> traineeList = extractTraineeData(resultSet);
 
-        return traineeList;
+        return extractTraineeData(resultSet);
     }
 
     public ResultSet executeQuery(Connection connection, String query) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
 
-        return resultSet;
+        return statement.executeQuery(query);
     }
 
     public List<Trainee> extractTraineeData(ResultSet resultSet) throws SQLException {

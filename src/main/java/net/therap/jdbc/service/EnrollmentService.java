@@ -22,23 +22,20 @@ public class EnrollmentService {
                 " INNER JOIN course ON course.course_code=enrollment.course_code";
 
         ResultSet resultSet = executeQuery(connection, query);
-        List<Enrollment> enrollmentList = extractEnrollmentData(resultSet);
 
-        return enrollmentList;
+        return extractEnrollmentData(resultSet);
     }
 
     public void save(int traineeId, String courseCode) throws SQLException {
         Connection connection = ConnectionManager.getConnection();
         String query = "INSERT INTO enrollment VALUES (?, ?)";
         executeUpdate(connection, query, traineeId, courseCode);
-
     }
 
     public ResultSet executeQuery(Connection connection, String query) throws SQLException {
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
 
-        return resultSet;
+        return statement.executeQuery(query);
     }
 
     public void executeUpdate(Connection connection, String query, int traineeId, String courseCode) throws SQLException {
