@@ -52,28 +52,14 @@ public class EnrollmentService {
     public List<Enrollment> extractEnrollmentData(ResultSet resultSet) throws SQLException {
         List<Enrollment> enrollmentList = new ArrayList<>();
         while (resultSet.next()) {
-            boolean newEnrollment = true;
+            Trainee trainee = new Trainee(resultSet.getInt("trainee.trainee_id"),
+                    resultSet.getString("trainee.trainee_name"));
 
             Course course = new Course(resultSet.getString("course.course_code"),
                     resultSet.getString("course.course_title"));
 
-            Trainee trainee = new Trainee(resultSet.getInt("trainee.trainee_id"),
-                    resultSet.getString("trainee.trainee_name"));
-
-            if (enrollmentList.size() > 0) {
-                for (Enrollment enrollment : enrollmentList) {
-                    if ((enrollment.getTrainee().getTraineeId()) == (resultSet.getInt("trainee.trainee_id"))) {
-                        enrollment.getCourseList().add(course);
-                        newEnrollment = false;
-                        break;
-                    }
-                }
-            }
-            if (newEnrollment) {
-                List<Course> courseList = new ArrayList<>();
-                courseList.add(course);
-                enrollmentList.add(new Enrollment(trainee, courseList));
-            }
+            Enrollment enrollment = new Enrollment(trainee, course);
+            enrollmentList.add(enrollment);
         }
 
         return enrollmentList;
