@@ -8,7 +8,6 @@ import net.therap.jdbc.util.ConnectionManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * @author rumi.dipto
@@ -33,13 +32,7 @@ public class EnrollmentService {
         return enrollmentList;
     }
 
-    public void save() {
-        Scanner input = new Scanner(System.in);
-        System.out.println("Enter trainee id");
-        int traineeId = input.nextInt();
-        System.out.println("Enter course code");
-        String courseCode = input.next();
-
+    public void save(int traineeId, String courseCode) {
         Connection connection = ConnectionManager.getConnection();
         String query = "INSERT INTO enrollment VALUES (?, ?)";
         try {
