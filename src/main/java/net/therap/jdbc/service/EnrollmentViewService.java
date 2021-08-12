@@ -4,6 +4,7 @@ import net.therap.jdbc.domain.Course;
 import net.therap.jdbc.domain.Enrollment;
 import net.therap.jdbc.domain.Trainee;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,16 +28,21 @@ public class EnrollmentViewService {
     }
 
     public static void printEnrollmentInformation(List<Enrollment> enrollmentList) {
-        for (Enrollment enrollment : enrollmentList) {
-            Trainee trainee = enrollment.getTrainee();
-            System.out.println("Trainee:\n" + trainee.getTraineeId() + " - " + trainee.getTraineeName());
+        Collections.sort(enrollmentList);
+        Trainee trainee = null;
 
-            System.out.println("Courses:");
-            List<Course> courseList = enrollment.getCourseList();
-            for (Course course : courseList) {
-                System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
+        for (Enrollment enrollment : enrollmentList) {
+            if (trainee == null || !(enrollment.getTrainee().hashCode() == trainee.hashCode())) {
+                trainee = enrollment.getTrainee();
+                System.out.println("Trainee:\n" + trainee.getTraineeId() + " - " + trainee.getTraineeName());
+                System.out.println("Courses:\n" + enrollment.getCourse().getCourseCode() + " - "
+                        + enrollment.getCourse().getCourseTitle());
+            } else {
+                if (enrollment.getTrainee().equals(trainee)) {
+                    System.out.println(enrollment.getCourse().getCourseCode() + " - " + enrollment.getCourse().getCourseTitle());
+                }
+
             }
-            System.out.println("============");
         }
     }
 }
