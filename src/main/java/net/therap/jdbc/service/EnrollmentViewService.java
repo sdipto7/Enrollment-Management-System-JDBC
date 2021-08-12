@@ -30,7 +30,7 @@ public class EnrollmentViewService {
     public static void printEnrollmentInformation(List<Enrollment> enrollmentList) {
         Collections.sort(enrollmentList);
         Trainee trainee = null;
-        
+
         for (Enrollment enrollment : enrollmentList) {
             Course course = enrollment.getCourse();
             if (trainee == null || (enrollment.getTrainee().hashCode() != trainee.hashCode())) {
