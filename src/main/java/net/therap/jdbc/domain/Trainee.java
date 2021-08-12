@@ -1,5 +1,7 @@
 package net.therap.jdbc.domain;
 
+import java.util.Objects;
+
 /**
  * @author rumi.dipto
  * @since 8/9/21
@@ -29,5 +31,23 @@ public class Trainee {
 
     public void setTraineeName(String traineeNameValue) {
         traineeName = traineeNameValue;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || this.getClass() != object.getClass()) {
+            return false;
+        }
+        Trainee trainee = (Trainee) object;
+
+        return this.getTraineeId() == trainee.getTraineeId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.getTraineeName());
     }
 }
