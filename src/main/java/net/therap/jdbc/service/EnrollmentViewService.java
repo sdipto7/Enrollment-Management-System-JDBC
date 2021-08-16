@@ -6,6 +6,7 @@ import net.therap.jdbc.domain.Trainee;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author rumi.dipto
@@ -29,15 +30,15 @@ public class EnrollmentViewService {
 
     public static void printEnrollmentInformation(List<Enrollment> enrollmentList) {
         Collections.sort(enrollmentList);
-        Trainee trainee = null;
+        Trainee traineeBuffer = null;
 
         for (Enrollment enrollment : enrollmentList) {
             Course course = enrollment.getCourse();
-            if (trainee == null || (enrollment.getTrainee().hashCode() != trainee.hashCode())) {
-                trainee = enrollment.getTrainee();
-                System.out.println("Trainee:\n" + trainee.getTraineeId() + " - " + trainee.getTraineeName());
+            if (Objects.isNull(traineeBuffer) || !(enrollment.getTrainee().equals(traineeBuffer))) {
+                traineeBuffer = enrollment.getTrainee();
+                System.out.println("Trainee:\n" + traineeBuffer.getTraineeId() + " - " + traineeBuffer.getTraineeName());
                 System.out.println("Courses:\n" + course.getCourseCode() + " - " + course.getCourseTitle());
-            } else if (enrollment.getTrainee().equals(trainee)) {
+            } else if (enrollment.getTrainee().equals(traineeBuffer)) {
                 System.out.println(course.getCourseCode() + " - " + course.getCourseTitle());
             }
         }
